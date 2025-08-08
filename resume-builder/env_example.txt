@@ -1,0 +1,22 @@
+# LinkedIn Resume Builder - Environment Configuration
+# Copy this file to .env and fill in your actual values
+
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+
+# LinkedIn API Configuration
+# Get these from https://www.linkedin.com/developers/apps
+LINKEDIN_CLIENT_ID=781yjccyarqxeb
+LINKEDIN_CLIENT_SECRET=WPL_AP1.sElcliarD93KABVx.W8nHAg==
+LINKEDIN_REDIRECT_URI=http://localhost:8080/linkedin-callback
+
+# GitHub API Configuration
+# Get these from https://github.com/settings/developers
+GITHUB_CLIENT_ID=Ov23liEeOe9l00UhZqbh
+GITHUB_CLIENT_SECRET=2aa01a86ea279ce0d850bd53139018d5e5713f6c
+GITHUB_REDIRECT_URI=http://localhost:8080/github-callback
+
+# Application Settings
+UPLOAD_FOLDER=generated_resumes
+MAX_CONTENT_LENGTH=16777216 

@@ -1,0 +1,447 @@
+/* Custom styles for LinkedIn Resume Builder */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Header styling */
+header {
+    background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 12px 12px 0 0 !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Form styling */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0077b5;
+    box-shadow: 0 0 0 0.2rem rgba(0, 119, 181, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Button styling */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #005885 0%, #004066 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Profile preview styling */
+#profilePreview {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.profile-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.profile-label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.profile-value {
+    color: #212529;
+    font-size: 0.9rem;
+}
+
+/* Loading animation */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    color: #0c5460;
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid #dee2e6;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation for sections */
+.d-none {
+    transition: opacity 0.3s ease;
+}
+
+/* Custom scrollbar for profile preview */
+#profilePreview::-webkit-scrollbar {
+    width: 6px;
+}
+
+#profilePreview::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#profilePreview::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+#profilePreview::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Success animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#resultsSection {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Icon styling */
+.fab, .fas {
+    transition: transform 0.2s ease;
+}
+
+.btn:hover .fab,
+.btn:hover .fas {
+    transform: scale(1.1);
+}
+
+/* Template selection styling */
+.form-select option {
+    padding: 8px;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Error state */
+.error {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Success state */
+.success {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+/* Manual Resume Builder Styles */
+.manual-form-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.manual-form-section h6 {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.dynamic-entry {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.dynamic-entry:hover {
+    border-color: #0077b5;
+    box-shadow: 0 4px 12px rgba(0, 119, 181, 0.15);
+}
+
+.dynamic-entry .btn-remove {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.dynamic-entry .btn-remove:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    transform: scale(1.1);
+}
+
+/* Live Preview Styles */
+.resume-preview {
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 500px;
+    font-family: 'Times New Roman', serif;
+    font-size: 12px;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.resume-preview h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #0077b5;
+    padding-bottom: 0.5rem;
+}
+
+.resume-preview h2 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0077b5;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.resume-preview h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.resume-preview p {
+    margin-bottom: 0.5rem;
+}
+
+.resume-preview .contact-info {
+    color: #6c757d;
+    font-size: 11px;
+    margin-bottom: 1rem;
+}
+
+.resume-preview .summary {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.resume-preview .experience-item,
+.resume-preview .education-item {
+    margin-bottom: 1rem;
+}
+
+.resume-preview .experience-title,
+.resume-preview .education-title {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.resume-preview .experience-company,
+.resume-preview .education-school {
+    color: #0077b5;
+    font-style: italic;
+}
+
+.resume-preview .experience-duration,
+.resume-preview .education-duration {
+    color: #6c757d;
+    font-size: 11px;
+}
+
+.resume-preview .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.resume-preview .skill-tag {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    color: #495057;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 11px;
+    border: 1px solid #ced4da;
+}
+
+.resume-preview .certifications-list,
+.resume-preview .achievements-list {
+    margin-top: 0.5rem;
+}
+
+.resume-preview .certification-item,
+.resume-preview .achievement-item {
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.resume-preview .certification-item::before,
+.resume-preview .achievement-item::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #0077b5;
+    font-weight: bold;
+}
+
+/* Mode Selection Styles */
+.mode-selection .form-check {
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.mode-selection .form-check:hover {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-color: #0077b5;
+}
+
+.mode-selection .form-check-input:checked + .form-check-label {
+    color: #0077b5;
+    font-weight: 600;
+}
+
+.mode-selection .form-check-input:checked ~ .form-check {
+    border-color: #0077b5;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+/* Responsive adjustments for manual builder */
+@media (max-width: 768px) {
+    .resume-preview {
+        font-size: 10px;
+        padding: 1rem;
+        min-height: 400px;
+    }
+    
+    .resume-preview h1 {
+        font-size: 20px;
+    }
+    
+    .resume-preview h2 {
+        font-size: 14px;
+    }
+    
+    .resume-preview h3 {
+        font-size: 12px;
+    }
+    
+    .dynamic-entry {
+        padding: 0.75rem;
+    }
+} 

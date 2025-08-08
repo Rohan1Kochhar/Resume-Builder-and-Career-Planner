@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Resume Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="bg-primary text-white py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-0">
+                            <i class="fab fa-linkedin me-3"></i>
+                            LinkedIn Resume Builder
+                        </h1>
+                        <p class="mb-0 mt-2">Transform your LinkedIn profile into a professional resume</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <i class="fas fa-file-alt me-2"></i>
+                            <span>Professional Resume Generator</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="py-5">
+            <div class="container">
+                <!-- Mode Selection -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-cogs me-2"></i>
+                                    Choose Your Resume Building Method
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="buildMode" id="linkedinMode" value="linkedin" checked>
+                                            <label class="form-check-label" for="linkedinMode">
+                                                <i class="fab fa-linkedin me-2"></i>
+                                                <strong>LinkedIn Import</strong>
+                                                <br><small class="text-muted">Import data from your LinkedIn profile</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="buildMode" id="githubMode" value="github">
+                                            <label class="form-check-label" for="githubMode">
+                                                <i class="fab fa-github me-2"></i>
+                                                <strong>GitHub Import</strong>
+                                                <br><small class="text-muted">Import data from your GitHub profile</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="buildMode" id="manualMode" value="manual">
+                                            <label class="form-check-label" for="manualMode">
+                                                <i class="fas fa-edit me-2"></i>
+                                                <strong>Manual Entry</strong>
+                                                <br><small class="text-muted">Enter your details manually with live preview</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LinkedIn Mode -->
+                <div id="linkedinModeSection">
+                    <div class="row">
+                        <!-- Input Section -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-upload me-2"></i>
+                                        Step 1: Enter LinkedIn Profile
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="linkedinForm">
+                                        <div class="mb-3">
+                                            <label for="linkedinUrl" class="form-label">LinkedIn Profile URL</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fab fa-linkedin"></i>
+                                                </span>
+                                                <input type="url" class="form-control" id="linkedinUrl" 
+                                                       placeholder="https://linkedin.com/in/your-profile" required>
+                                            </div>
+                                            <div class="form-text">
+                                                Enter your public LinkedIn profile URL to extract your information
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="useApiCheck">
+                                                <label class="form-check-label" for="useApiCheck">
+                                                    <i class="fab fa-linkedin me-1"></i>
+                                                    Use LinkedIn API (requires authentication)
+                                                </label>
+                                            </div>
+                                            <div class="form-text">
+                                                Check this to use real LinkedIn data. Leave unchecked for demo mode.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="linkedinTemplateSelect" class="form-label">Template Style:</label>
+                                            <select class="form-select" id="linkedinTemplateSelect">
+                                                <option value="modern">Modern</option>
+                                                <option value="classic">Classic</option>
+                                                <option value="minimal">Minimal</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="linkedinFormatSelect" class="form-label">Format:</label>
+                                            <select class="form-select" id="linkedinFormatSelect">
+                                                <option value="docx">Word Document (.docx)</option>
+                                                <option value="pdf">PDF (.pdf)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary w-100" id="parseBtn">
+                                            <i class="fas fa-search me-2"></i>
+                                            Parse LinkedIn Profile
+                                        </button>
+                                        
+                                        <div class="mt-2">
+                                            <a href="/linkedin-auth" class="btn btn-outline-primary w-100" id="linkedinAuthBtn">
+                                                <i class="fab fa-linkedin me-2"></i>
+                                                Connect with LinkedIn
+                                            </a>
+                                        </div>
+                                    </form>
+                                    
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Note:</strong> 
+                                            <ul class="mb-0 mt-2">
+                                                <li>Check "Use LinkedIn API" to connect with your real LinkedIn profile</li>
+                                                <li>Leave unchecked to use demo data for testing</li>
+                                                <li>You'll need to set up LinkedIn API credentials for production use</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>
+                                        Step 2: Preview & Generate
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="previewSection" class="d-none">
+                                        <div class="mb-3">
+                                            <h6>Profile Information Extracted:</h6>
+                                            <div id="profilePreview" class="border rounded p-3 bg-light">
+                                                <!-- Profile preview will be populated here -->
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-success" id="generateBtn">
+                                                <i class="fas fa-download me-2"></i>
+                                                Generate Resume
+                                            </button>
+                                            <button class="btn btn-outline-secondary" id="editBtn">
+                                                <i class="fas fa-edit me-2"></i>
+                                                Edit Information
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="loadingSection" class="text-center d-none">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Processing your LinkedIn profile...</p>
+                                    </div>
+                                    
+                                    <div id="initialSection">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-file-alt fa-3x mb-3"></i>
+                                            <p>Enter your LinkedIn profile URL to get started</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GitHub Mode -->
+                <div id="githubModeSection" class="d-none">
+                    <div class="row">
+                        <!-- Input Section -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-upload me-2"></i>
+                                        Step 1: Enter GitHub Profile
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="githubForm">
+                                        <div class="mb-3">
+                                            <label for="githubUrl" class="form-label">GitHub Profile URL</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <i class="fab fa-github"></i>
+                                                </span>
+                                                <input type="url" class="form-control" id="githubUrl" 
+                                                       placeholder="https://github.com/username" required>
+                                            </div>
+                                            <div class="form-text">
+                                                Enter your public GitHub profile URL to extract your information
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="useGitHubApiCheck">
+                                                <label class="form-check-label" for="useGitHubApiCheck">
+                                                    <i class="fab fa-github me-1"></i>
+                                                    Use GitHub API (requires authentication)
+                                                </label>
+                                            </div>
+                                            <div class="form-text">
+                                                Check this to use real GitHub data. Leave unchecked for demo mode.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="githubTemplateSelect" class="form-label">Template Style:</label>
+                                            <select class="form-select" id="githubTemplateSelect">
+                                                <option value="modern">Modern</option>
+                                                <option value="classic">Classic</option>
+                                                <option value="minimal">Minimal</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="githubFormatSelect" class="form-label">Format:</label>
+                                            <select class="form-select" id="githubFormatSelect">
+                                                <option value="docx">Word Document (.docx)</option>
+                                                <option value="pdf">PDF (.pdf)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary w-100" id="parseGitHubBtn">
+                                            <i class="fas fa-search me-2"></i>
+                                            Parse GitHub Profile
+                                        </button>
+                                        
+                                        <div class="mt-2">
+                                            <a href="/github-auth" class="btn btn-outline-primary w-100" id="githubAuthBtn">
+                                                <i class="fab fa-github me-2"></i>
+                                                Connect with GitHub
+                                            </a>
+                                        </div>
+                                    </form>
+                                    
+                                    <div class="mt-3">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Note:</strong> 
+                                            <ul class="mb-0 mt-2">
+                                                <li>Check "Use GitHub API" to connect with your real GitHub profile</li>
+                                                <li>Leave unchecked to use demo data for testing</li>
+                                                <li>You'll need to set up GitHub API credentials for production use</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>
+                                        Step 2: Preview & Generate
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="githubPreviewSection" class="d-none">
+                                        <div class="mb-3">
+                                            <h6>Profile Information Extracted:</h6>
+                                            <div id="githubProfilePreview" class="border rounded p-3 bg-light">
+                                                <!-- GitHub profile preview will be populated here -->
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-success" id="generateGitHubBtn">
+                                                <i class="fas fa-download me-2"></i>
+                                                Generate Resume
+                                            </button>
+                                            <button class="btn btn-outline-secondary" id="editGitHubBtn">
+                                                <i class="fas fa-edit me-2"></i>
+                                                Edit Information
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="githubLoadingSection" class="text-center d-none">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Processing your GitHub profile...</p>
+                                    </div>
+                                    
+                                    <div id="githubInitialSection">
+                                        <div class="text-center text-muted">
+                                            <i class="fab fa-github fa-3x mb-3"></i>
+                                            <p>Enter your GitHub profile URL to get started</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Mode -->
+                <div id="manualModeSection" class="d-none">
+                    <div class="row">
+                        <!-- Input Form -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-edit me-2"></i>
+                                        Manual Resume Builder
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="manualResumeForm">
+                                        <!-- Personal Information -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-user me-2"></i>Personal Information
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="fullName" class="form-label">Full Name</label>
+                                                        <input type="text" class="form-control" id="fullName" placeholder="John Doe">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="headline" class="form-label">Professional Headline</label>
+                                                        <input type="text" class="form-control" id="headline" placeholder="Software Engineer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="email" placeholder="john.doe@email.com">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label">Phone</label>
+                                                        <input type="tel" class="form-control" id="phone" placeholder="+1 (555) 123-4567">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="location" class="form-label">Location</label>
+                                                <input type="text" class="form-control" id="location" placeholder="San Francisco, CA">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="summary" class="form-label">Professional Summary</label>
+                                                <textarea class="form-control" id="summary" rows="3" placeholder="Experienced software engineer with expertise in..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Work Experience -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-briefcase me-2"></i>Work Experience
+                                                <button type="button" class="btn btn-sm btn-outline-primary float-end" id="addExperience">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            </h6>
+                                            <div id="experienceContainer">
+                                                <!-- Experience entries will be added here -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Education -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-graduation-cap me-2"></i>Education
+                                                <button type="button" class="btn btn-sm btn-outline-primary float-end" id="addEducation">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            </h6>
+                                            <div id="educationContainer">
+                                                <!-- Education entries will be added here -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Skills -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-tools me-2"></i>Skills
+                                            </h6>
+                                            <div class="mb-3">
+                                                <label for="skills" class="form-label">Skills (comma-separated)</label>
+                                                <input type="text" class="form-control" id="skills" placeholder="Python, JavaScript, React, Node.js, AWS">
+                                            </div>
+                                        </div>
+
+                                        <!-- Certifications -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-certificate me-2"></i>Certifications
+                                                <button type="button" class="btn btn-sm btn-outline-primary float-end" id="addCertification">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            </h6>
+                                            <div id="certificationContainer">
+                                                <!-- Certification entries will be added here -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Achievements -->
+                                        <div class="mb-4">
+                                            <h6 class="border-bottom pb-2">
+                                                <i class="fas fa-trophy me-2"></i>Achievements
+                                            </h6>
+                                            <div class="mb-3">
+                                                <label for="achievements" class="form-label">Achievements (one per line)</label>
+                                                <textarea class="form-control" id="achievements" rows="3" placeholder="Led a team of 5 developers to deliver project ahead of schedule&#10;Improved system performance by 40%&#10;Received Employee of the Year award"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Template Selection -->
+                                        <div class="mb-3">
+                                            <label for="manualTemplateSelect" class="form-label">Template Style:</label>
+                                            <select class="form-select" id="manualTemplateSelect">
+                                                <option value="modern">Modern</option>
+                                                <option value="classic">Classic</option>
+                                                <option value="minimal">Minimal</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="manualFormatSelect" class="form-label">Format:</label>
+                                            <select class="form-select" id="manualFormatSelect">
+                                                <option value="docx">Word Document (.docx)</option>
+                                                <option value="pdf">PDF (.pdf)</option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-success w-100" id="generateManualBtn">
+                                            <i class="fas fa-download me-2"></i>
+                                            Generate Resume
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Preview -->
+                        <div class="col-lg-6">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-eye me-2"></i>
+                                        Live Preview
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="livePreview" class="resume-preview">
+                                        <!-- Live preview will be rendered here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Search Tab -->
+                <div class="container mt-5" id="jobSearchTab">
+                    <div class="card shadow-lg">
+                        <div class="card-header bg-info text-white">
+                            <h4 class="mb-0"><i class="fas fa-search me-2"></i>Job Search (India)</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="jobSearchForm" class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="jobSkills" class="form-label">Skills</label>
+                                    <input type="text" class="form-control" id="jobSkills" placeholder="e.g. Python, React, SQL">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="jobExperience" class="form-label">Work Experience (years)</label>
+                                    <input type="number" class="form-control" id="jobExperience" min="0" max="40" placeholder="e.g. 3">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="jobLocation" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="jobLocation" placeholder="e.g. Bangalore" value="India">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="jobType" class="form-label">Job Type</label>
+                                    <select class="form-select" id="jobType">
+                                        <option value="">Any</option>
+                                        <option value="remote">Remote</option>
+                                        <option value="onsite">Onsite</option>
+                                        <option value="hybrid">Hybrid</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-info btn-lg w-100"><i class="fas fa-search me-2"></i>Search Jobs</button>
+                                </div>
+                            </form>
+                            <div id="jobSearchResults" class="row mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Job Search Tab -->
+
+                <!-- Results Section -->
+                <div class="row mt-4" id="resultsSection" style="display: none;">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Resume Generated Successfully!
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6>Your resume is ready for download</h6>
+                                        <p class="text-muted mb-0">Click the download button to get your professional resume in Word format.</p>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <button type="button" class="btn btn-primary" id="downloadBtn">
+                                            <i class="fas fa-download me-2"></i>
+                                            Download Resume
+                                        </button>
+                                        <button type="button" class="btn btn-secondary ms-2" onclick="resumeBuilder.showResumeFiles()">Show Resume Files (Debug)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-light py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-0 text-muted">
+                            <i class="fas fa-code me-2"></i>
+                            Built with Flask & Bootstrap
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <p class="mb-0 text-muted">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Secure & Professional
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 
